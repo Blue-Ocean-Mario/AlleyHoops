@@ -10,6 +10,7 @@ const GamePage = () => {
     <Map />
     <Comments />
   </div>
+  )
 }
 
 export default GamePage;
