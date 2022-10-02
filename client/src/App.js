@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import LoginView from './Login/LoginView.js';
 import Dropdown from '../src/components/Messages/Messages.js';
 import NavBar from './components/NavBar.js';
+import Dashboard from './components/Dashboard/Dashboard.jsx';
 
 // const serverURL = 'http://localhost:3001';
 
@@ -16,7 +17,8 @@ function App() {
       {userId && (
         <div>
           <Dropdown />
-        </div>
+          <Dashboard />
+    </div>
       )}
     </div>
   );
