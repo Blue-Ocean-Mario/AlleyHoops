@@ -10,35 +10,33 @@ import { Server } from 'socket.io';
 const app: Express = express();
 const port = 3001;
 const server = app.listen(port, () => console.log(`listening on port ${port}`));
+const socket = http.createServer(app);
 
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
+
 app.use('/', router);
 
-const socket = http.createServer(app);
 
 const io = new Server(socket, {
   cors: {
-    origin: "http://localhost:3001",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 }).listen(server);
 
 io.on('connection', (socket) => {
-  console.log(`${socket.id} has joined room`);
+  console.log(`User ${socket.id} connected`);
 
   socket.on('send_message', (data) => {
-    socket.broadcast.emit('receive_message', () => {
+    // socket.broadcast.emit('receive_message', () => {})
+    console.log(data);
+  });
 
-    })
-  })
+  socket.on('disconnect', () => {
+    console.log(`User ${socket.id} disconnected`);
+  });
 
-
-  socket.on('disconnect', (data) => {
-    console.log(`${socket.id} has disconnected`);
-  })
 });
-
-
 
