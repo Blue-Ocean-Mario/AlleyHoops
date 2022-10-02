@@ -10,13 +10,13 @@ import { Server } from 'socket.io';
 
 const app: Express = express();
 const port = 3001;
-const server = app.listen(port, () => console.log(`listening on port ${port}`));
-const socket = http.createServer(app);
 
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
+const socket = http.createServer(app);
+const server = app.listen(port, () => console.log(`listening on port ${port}`));
 // session middleware for obtaining cookies
 app.use(session({
   secret: 'key that will sign the cookie',  //change at later point
@@ -37,14 +37,20 @@ const io = new Server(socket, {
 io.on('connection', (socket) => {
   console.log(`User ${socket.id} connected`);
 
+  socket.on('join', (room) => {
+    socket.join(room);
+    console.log(`user ${socket.id} joined room ${room}`);
+  });
+
   socket.on('send_message', (data) => {
-    // socket.broadcast.emit('receive_message', () => {})
+    socket.to(data.room).emit('receive_message', data);
+    // socket.emit('receive_message', data);
     console.log(data);
   });
+
 
   socket.on('disconnect', () => {
     console.log(`User ${socket.id} disconnected`);
   });
 
 });
-
