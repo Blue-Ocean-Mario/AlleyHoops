@@ -1,0 +1,46 @@
+#left-form-panel {
+  position: fixed;
+  background-color: #f7d25b;
+  width: 50%;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: moveright 0.5s 1;
+}
+
+#right-form-panel {
+  position: fixed;
+  background-color: #542381;
+  width: 50%;
+  height: 100vh;
+  right: 0;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: moveleft 0.5s 1;
+  overflow: hidden;
+}
+
+@keyframes moveright {
+  0%   {left: -400px}
+  50%  {left: -1px}
+  90%  {left: -20px}
+  100% {left: 0}
+}
+@keyframes moveleft {
+  0%    {right: -400px}
+  50%   {right: -1px}
+  90%   {right: -20px}
+  100%  {right: 0}
+}
+
+#form {
+  width: 60%;
+  max-width: 400px;
+}

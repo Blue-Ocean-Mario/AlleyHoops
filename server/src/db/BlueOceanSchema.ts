@@ -2,7 +2,9 @@ import {Schema, model, connect } from 'mongoose';
 import * as I from '../Utilities/Interfaces/Schemas'
 
 const userSchema = new Schema<I.User>({
-  login: Object, // username, gmail or email, password
+  username: String, // username, gmail or email, password
+  email: String,
+  password: String,
   stats: Object, // dribbling, passing, shooting, dunking,
   friends: Array, // of [ids]
   events: Array, // of [ids]

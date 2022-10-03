@@ -4,7 +4,7 @@ import Dropdown from '../src/components/Messages/Messages.js';
 import NavBar from './components/NavBar.js';
 import Dashboard from './components/Dashboard/Dashboard.jsx';
 
-// const serverURL = 'http://localhost:3001';
+const serverURL = 'http://localhost:3001';
 
 function App() {
   //const divRef = useRef(true);
@@ -18,7 +18,7 @@ function App() {
         <div>
           <Dropdown />
           <Dashboard />
-    </div>
+        </div>
       )}
     </div>
   );
