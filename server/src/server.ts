@@ -6,10 +6,15 @@ import cors from 'cors';
 import http from 'http';
 
 import { router } from './routes';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
+import { onConnection } from './Sockets/route_socket'
+
+import * as I from './Utilities/Interfaces/Sockets';
 
 const app: Express = express();
 const port = 3001;
+const server = app.listen(port, () => console.log(`listening on port ${port}`));
+const socketServer = http.createServer(app);
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -26,31 +31,22 @@ app.use(session({
 
 app.use('/', router);
 
-
-const io = new Server(socket, {
+ export const io = new Server(socketServer, {
   cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
   },
 }).listen(server);
 
-io.on('connection', (socket) => {
-  console.log(`User ${socket.id} connected`);
+io.use((socket: I.ExtendedSocket | any, next):void => {
+  // authorization
+  const username = socket.handshake.auth.username;
+  if (!username) {
+    return next(new Error('invalid username'))
+  }
+  socket.username = username;
+  next();
+})
 
-  socket.on('join', (room) => {
-    socket.join(room);
-    console.log(`user ${socket.id} joined room ${room}`);
-  });
+io.on('connection', onConnection)
 
-  socket.on('send_message', (data) => {
-    socket.to(data.room).emit('receive_message', data);
-    // socket.emit('receive_message', data);
-    console.log(data);
-  });
-
-
-  socket.on('disconnect', () => {
-    console.log(`User ${socket.id} disconnected`);
-  });
-
-});

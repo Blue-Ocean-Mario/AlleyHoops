@@ -1,4 +1,5 @@
 //example interfaces for sockets from documentation
+import { Socket } from 'socket.io';
 
 export interface ServerToClientEvents {
   noArg: () => void;
@@ -17,4 +18,8 @@ export interface InterServerEvents {
 export interface SocketData {
   name: string;
   age: number;
+}
+
+export interface ExtendedSocket extends Socket {
+  username: string;
 }
