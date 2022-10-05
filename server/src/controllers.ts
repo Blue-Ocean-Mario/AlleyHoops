@@ -145,12 +145,40 @@ export async function joinGame (req:Request, res: Response) {
 }
 
 /************************USERS************************/
-export async function getUserInfo (req: Request, res: Response) {
-  try {
-    // search user by Id
-  } catch (error) {
-
-  }
+export function getUserInfo (req: Request, res: Response) {
+  let user: any = {};
+  let fPromArr: Array<any> = [];
+  let ePromArr: Array<any> = [];
+  db.User.findOne({_id: req.query.userId})
+    .then(result=>{
+      user = result;
+      result?.events.forEach(event=>ePromArr.push(db.Event.findOne({_id: event})));
+      result?.friends.forEach(friend=>fPromArr.push(db.User.findOne({_id: friend})));
+      return Promise.all(fPromArr).then(friendsArr=>friendsArr);
+    })
+    .then(friendsArr=>{
+      user.friends = friendsArr;
+      return Promise.all(ePromArr).then(eventsArr=>eventsArr);
+    })
+    .then(eventsArr=>{
+      user.events = eventsArr;
+    })
+    .then(()=>{
+      ePromArr.length = 0;
+      user.events.forEach((event)=>ePromArr.push(new Promise ((resolve)=>{
+        fPromArr.length = 0;
+        event.peopleAttending.forEach((person)=>
+        fPromArr.push(db.User.findOne({_id: person}))
+        )
+        resolve(Promise.all(fPromArr).then(persArr=>{
+          event.peopleAttending = persArr;
+        }));
+      })
+      ))
+      return Promise.all(ePromArr).then((arr)=>arr)
+    })
+    .then(()=>res.send(user))
+    .catch(err=>res.send(err));
 }
 
 export async function getFriends (req: Request, res: Response) {

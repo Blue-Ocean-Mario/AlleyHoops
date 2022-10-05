@@ -1,4 +1,4 @@
-import { Tabs, Header } from '@mantine/core';
+import { Tabs, Text } from '@mantine/core';
 import img from '../assets/images/AlleyHoopsGreen.png';
 
 const sty = {
@@ -24,9 +24,9 @@ export default function NavBar({ userId, page, setPage }) {
       <Tabs.List>
         <img src={img} alt='IMG NOT FOUND' />
         {page === 'login' && !userId ? (
-          <Header m='auto' sx={headSty}>
+          <Text m='auto' sx={headSty}>
             Login
-          </Header>
+          </Text>
         ) : (
           <>
             <Tabs.Tab

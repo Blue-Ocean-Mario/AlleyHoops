@@ -1,3 +1,14 @@
+.events {
+  height: 80vh;
+  overflow: auto;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.events::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
 .roll0 {
 
   /* Animation to spin and move the sphere */

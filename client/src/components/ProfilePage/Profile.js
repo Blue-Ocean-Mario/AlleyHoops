@@ -1,9 +1,10 @@
-import { SimpleGrid, Grid, Avatar, Text } from '@mantine/core';
+import { SimpleGrid, Grid, Avatar, Text, Button } from '@mantine/core';
 import bbimg from '../../assets/images/basketballicon.png';
 // eslint-disable-next-line
 import ball from './ball.css';
 
-export default function Profile() {
+export default function Profile({ profile, page }) {
+  const { dribbling, dunking, passing, shooting } = profile.stats || 0;
   const bbSty = {
     width: '25px',
     height: '25px',
@@ -11,23 +12,47 @@ export default function Profile() {
   return (
     <div>
       <Grid m='5%'>
-        <Avatar
-          radius={100}
-          size={100}
-          src='https://cdn.nba.com/headshots/nba/latest/1040x760/977.png'
-        />
-        <SimpleGrid m='auto'>
+        <Avatar m='auto' radius={100} size={100} src={profile.picture} />
+        <div>
+          <Text weight='bolder'>{profile.username}</Text>
+          <Text>City: {profile.city}</Text>
+          <Text>State: {profile.state}</Text>
           <Text>Games Attended: 43</Text>
           <Text>Prefered Role: Guard</Text>
           <Text>Height: 6'6"</Text>
-        </SimpleGrid>
+          {page === 'frnd' ? (
+            <Button>Add/Remove Friend</Button>
+          ) : (
+            <Button>Edit Profile</Button>
+          )}
+        </div>
       </Grid>
       <SimpleGrid m='5%'>
-        <Text m='auto' weight={'bolder'}>
+        <Text size={20} m='auto' weight={'bolder'}>
           Skills
         </Text>
-        <Grid m='auto'>
-          <Text>Overall</Text>
+        <Grid ml='xs'>
+          <Text weight='bolder' sx={{ width: '85px' }}>
+            Overall:
+          </Text>
+          <Text weight='bolder' ml='xs' sx={{ textTransform: 'capitalize' }}>
+            {profile.overallSkill}
+          </Text>
+        </Grid>
+        <Grid ml='xs'>
+          <Text sx={{ width: '85px' }}>Dunkability</Text>
+          {[...Array(dunking)].map((num, i) => (
+            <img
+              src={bbimg}
+              alt='bbimg'
+              style={bbSty}
+              className={`roll${i}`}
+              key={i}
+            />
+          ))}
+        </Grid>
+        <Grid ml='xs'>
+          <Text sx={{ width: '85px' }}>Defense</Text>
           {[...Array(5)].map((num, i) => (
             <img
               src={bbimg}
@@ -38,9 +63,9 @@ export default function Profile() {
             />
           ))}
         </Grid>
-        <Grid m='auto'>
-          <Text>Dunkability</Text>
-          {[...Array(5)].map((num, i) => (
+        <Grid ml='xs'>
+          <Text sx={{ width: '85px' }}>Shooting</Text>
+          {[...Array(shooting)].map((num, i) => (
             <img
               src={bbimg}
               alt='bbimg'
@@ -50,9 +75,9 @@ export default function Profile() {
             />
           ))}
         </Grid>
-        <Grid m='auto'>
-          <Text>Defense</Text>
-          {[...Array(5)].map((num, i) => (
+        <Grid ml='xs'>
+          <Text sx={{ width: '85px' }}>Dribbling</Text>
+          {[...Array(dribbling)].map((num, i) => (
             <img
               src={bbimg}
               alt='bbimg'
@@ -62,33 +87,9 @@ export default function Profile() {
             />
           ))}
         </Grid>
-        <Grid m='auto'>
-          <Text>Shooting</Text>
-          {[...Array(5)].map((num, i) => (
-            <img
-              src={bbimg}
-              alt='bbimg'
-              style={bbSty}
-              className={`roll${i}`}
-              key={i}
-            />
-          ))}
-        </Grid>
-        <Grid m='auto'>
-          <Text>Dribbling</Text>
-          {[...Array(5)].map((num, i) => (
-            <img
-              src={bbimg}
-              alt='bbimg'
-              style={bbSty}
-              className={`roll${i}`}
-              key={i}
-            />
-          ))}
-        </Grid>
-        <Grid m='auto'>
-          <Text>Passing</Text>
-          {[...Array(5)].map((num, i) => (
+        <Grid ml='xs'>
+          <Text sx={{ width: '85px' }}>Passing</Text>
+          {[...Array(passing)].map((num, i) => (
             <img
               src={bbimg}
               alt='bbimg'
