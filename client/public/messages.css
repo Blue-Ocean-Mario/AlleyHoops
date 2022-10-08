@@ -1,46 +1,41 @@
-body {
-  margin: 0;
-  background-color: #16141c;
-}
-
-.MesCon {
+.m-MesCon {
   margin: 0.3rem;
   background-color: #542381
-};
+}
 
-.userMesCon {
+.m-userMesCon {
   display: flex;
   justify-content: flex-end;
-};
+}
 
-.othMesCon {
+.m-othMesCon {
   justify-content: flex-start;
-};
+}
 
-.Mes {
+.m-Mes {
   width: 40%;
   padding: 1rem;
 }
 
-.myMes {
+.m-myMes {
   width: 40%;
   padding: 1rem;
   border: 1px solid lightblue;
   background-color: #526bce;
-};
+}
 
-.othMes {
+.m-othMes {
   width: 40%;
   padding: 1rem;
   border: 1px solid lightblue;
   background-color: #542381;
-};
+}
 
-.messageDisplay {
+.m-messageDisplay {
   /* border: 1px solid lightgray; */
   height: 65vh;
   width: 60vw;
   overflow-y: auto;
   max-width: 80vw;
   padding: 2rem;
-};
+}

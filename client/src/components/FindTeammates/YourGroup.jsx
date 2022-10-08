@@ -11,20 +11,27 @@ export default function YourGroup({ group, user, setPage }) {
 
   const joinRoom = () => {
     // all the users array will be Object.keys(group);
+
+    let users = Object.keys(group)
+    users.shift();
+    users.push('Goksu9000');
     socket.emit(join.group, {
       conversationName: null,
-      users: Object.keys(group),
+      users: users,
     });
     setMakeGroup(true);
   };
 
   socket.on(join.room, (convo) => {
     // if convo users includes my username, then add that convo to convo list
+    console.log(convo);
     if (convo.users.includes(user.username)) {
+      console.log('huh');
       socket.emit(join.room, { conversationId: convo._id.toString() });
       if (makeGroup) {
-        setMakeGroup(false);
+        console.log('why');
         setPage('messages');
+        setMakeGroup(false);
       }
     }
   });

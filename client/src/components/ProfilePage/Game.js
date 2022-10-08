@@ -1,7 +1,7 @@
 import { Avatar, Grid, SimpleGrid, Text, Card, Tooltip } from '@mantine/core';
 import moment from 'moment';
 
-export default function Game({ event, setPage, setDispId }) {
+export default function Game({ event, setPage, setDispId, setGameState }) {
   return (
     <div style={{ marginBottom: '18px' }}>
       <Card shadow='sm' p='lg' radius='md'>
@@ -44,7 +44,12 @@ export default function Game({ event, setPage, setDispId }) {
               )}
             </Grid>
           </SimpleGrid>
-          <div style={{ cursor: 'pointer' }} onClick={() => console.log(event)}>
+          <div
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              setPage('gp');
+              setGameState(event._id);
+            }}>
             <Text>
               <h3>{event.eventName}</h3>
             </Text>

@@ -1,9 +1,11 @@
-import { Grid } from '@mantine/core';
+import { Grid, Select, Card, Text, ScrollArea, Divider } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import { socket } from './../../App';
 import MessageRoom from './MessageRoom.js';
 import { MessageDisplay } from './MessageDisplay';
 import { user, join } from '../../Utilities/socket_listeners';
+import { BigStyledButton } from '../../styledComponents/StyledButtons';
+
 
 export function Messages({ userObj }) {
   const [convoList, setConvoList] = useState([]);
@@ -22,14 +24,18 @@ export function Messages({ userObj }) {
     setDisplayChat(convoList[0]);
   }, [convoList]);
 
-  socket.auth = { username };
-  socket.connect();
   socket.on(user.getConversations, (convo) => {
     setConvoList(convo);
   });
 
   socket.on(user.getFriends, (friends) => {
-    setFriends(friends);
+    const list = friends.map((friend) => {
+      return {
+        value: friend.username,
+        label: friend.username,
+      }
+    })
+    setFriends(list);
   });
 
   socket.on(join.room, (convo) => {
@@ -42,13 +48,8 @@ export function Messages({ userObj }) {
     }
   });
 
-  function handleInput(e) {
-    setSelectedFriend(e.target.value);
-  }
-
   function handleNewMessage() {
     let chatExists = false;
-
     for (let i = 0; i < convoList.length; i++) {
       if (
         convoList[i].users.includes(selectedFriend) &&
@@ -71,28 +72,32 @@ export function Messages({ userObj }) {
   return (
     <div style={{ marginTop: '1%' }}>
       <Grid m='auto'>
-        <div>
+        <div style={{width: '20vw', padding: '2rem'}}>
           {friends.length > 0 ? (
-            <div>
-              <select name='selectFriend' onChange={handleInput}>
-                {friends.map((friend, index) => (
-                  <option key={index}>{friend.username}</option>
-                ))}
-              </select>
-              <button onClick={handleNewMessage}>Message Friend</button>
-            </div>
+          <div style={{display:'flex', flexDirection:'column'}}>
+            <Select placeholder="Choose a friend to message!" data={friends} onChange={setSelectedFriend}/>
+            <BigStyledButton string={'New Message'} onClick={handleNewMessage} />
+          </div>
           ) : (
             <div>You got no friends cuh</div>
           )}
-          {convoList.map((convo) => (
-            <MessageRoom
-              key={convo._id}
-              userObj={userObj}
-              convo={convo}
-              socket={socket}
-              setDisplayChat={setDisplayChat}
-            />
-          ))}
+          <div >
+            <Card>
+              <Text size='xl' align='center'>Messages</Text>
+              <Divider />
+              <ScrollArea type='hover' style={{height: '40rem'}}>
+                {convoList.map((convo) => (
+                  <MessageRoom
+                    key={convo._id}
+                    userObj={userObj}
+                    convo={convo}
+                    socket={socket}
+                    setDisplayChat={setDisplayChat}
+                  />
+                ))}
+              </ScrollArea>
+            </Card>
+          </div>
         </div>
         <MessageDisplay
           userObj={userObj}

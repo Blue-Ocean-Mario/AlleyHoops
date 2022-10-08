@@ -16,6 +16,7 @@ export default function ProfilePage({
   setPage,
   dispId,
   setDispId,
+  setGameState,
 }) {
   const [profile, setProfile] = useState({});
 
@@ -47,7 +48,7 @@ export default function ProfilePage({
     <div style={{ margin: '40px' }}>
       <img style={bbSty} src={bbplyr2} alt='bbplyr2' />
       <Grid m='auto'>
-        <div style={{ margin: 'auto', marginTop: '81px' }}>
+        <div style={{ margin: 'auto', marginTop: '78px' }}>
           <Profile
             profile={profile}
             page={page}
@@ -60,7 +61,7 @@ export default function ProfilePage({
             setPage={setPage}
           />
         </div>
-        <SimpleGrid m='auto'>
+        <SimpleGrid m='auto' mt='xl'>
           <Text color='white' size={25} align='center' weight='bolder'>
             Your Games
           </Text>
@@ -72,6 +73,7 @@ export default function ProfilePage({
                     event={event}
                     setPage={setPage}
                     setDispId={setDispId}
+                    setGameState={setGameState}
                   />
                 ))
               : null}

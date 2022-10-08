@@ -1,8 +1,62 @@
 #id {
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none;  /* Firefox */
+  /* border: 1px solid lightgray; */
+  height: 65vh;
+  width: 60vw;
+  overflow-y: auto;
+  padding: 2rem;
+  box-shadow: rgba(161, 161, 161, 0.35) 0px 50px 36px -58px inset;
 }
 
 #id::-webkit-scrollbar {
   display: none;  /* Safari and Chrome */
 }
+
+/* .MesCon {
+  display: flex;
+  margin: 0.3rem;
+}; */
+
+.userMesCon {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0.3rem;
+}
+
+.othMesCon {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0.3rem;
+}
+
+.Mes {
+  width: 40%;
+  padding: 1rem;
+}
+
+.othMes {
+  width: 40%;
+  padding: 1rem;
+  border: 1px solid lightblue;
+  background-color: #542381;
+}
+
+.myMes {
+  width: 40%;
+  padding: 1rem;
+  border: 1px solid lightblue;
+  background-color: #526bce;
+}
+
+
+
+.messageDisplay {
+  /* border: 1px solid lightgray; */
+  height: 65vh;
+  width: 60vw;
+  overflow-y: auto;
+  max-width: 80vw;
+  padding: 2rem;
+}
+

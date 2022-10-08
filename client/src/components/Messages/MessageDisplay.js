@@ -6,6 +6,7 @@ import {
   Input,
   Button,
   TextInput,
+  Divider
 } from '@mantine/core';
 import moment from 'moment';
 import { useForm } from '@mantine/form';
@@ -17,7 +18,10 @@ import mCss from './mCss.css';
 const sampleMes = ['Hey', "Let's ball!", "I'm down!"];
 
 export function MessageDisplay({ socket, displayChat, userObj }) {
+  // console.log(mCss);
   const [messages, setMessages] = useState(sampleMes);
+
+  const mesCon = (userObj, message) => userObj.username === message.username ? "userMesCon" : "othMesCon";
 
   const form = useForm({
     initialValues: {
@@ -55,16 +59,6 @@ export function MessageDisplay({ socket, displayChat, userObj }) {
     });
   };
 
-  const myMesCon = {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  };
-
-  const othMesCon = {
-    display: 'flex',
-    justifyContent: 'flex-start',
-  };
-
   const myMes = {
     border: '1px solid lightblue',
     backgroundColor: '#526bce',
@@ -81,28 +75,23 @@ export function MessageDisplay({ socket, displayChat, userObj }) {
     padding: '1rem',
   };
 
-  const sty = {
-    border: '1px solid lightgray',
-    height: '65vh',
-    width: '60vw',
-    overflowY: 'auto',
-    maxWidth: '80vw',
-    padding: '2rem',
-    // scrollbarWidth: 'none',
-    // '&::WebkitScrollbar': {
-    //   display: 'none',
-    // },
-  };
+  // const sty = {
+  //   border: '1px solid lightgray',
+  //   height: '65vh',
+  //   width: '60vw',
+  //   overflowY: 'auto',
+  //   maxWidth: '80vw',
+  //   padding: '2rem',
+  // };
 
   return (
     <SimpleGrid m='auto'>
-      <div id='id' style={sty}>
+      <Divider />
+      <div id='id' className='messageDisplay'>
         {messages.map((message, i) => (
           <div
             key={i}
-            style={
-              message.username === userObj.username ? myMesCon : othMesCon
-            }>
+            className={mesCon(userObj, message)}>
             <div style={message.username === userObj.username ? myMes : othMes}>
               <Text mr='xl' align='right' color='white' size={10}>
                 {message.username}

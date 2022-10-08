@@ -31,7 +31,6 @@ export async function onConnection (socket: Socket | any) {
   socket.on(user.getConversations, () => {
     getConversationIDsFor(username)
       .then((user) =>  {
-        console.log(user.conversations)
         user.conversations.forEach((convoID: String) => socket.join(convoID))
         return getConversationsFrom(user.conversations);
       })
@@ -48,7 +47,6 @@ export async function onConnection (socket: Socket | any) {
   })
 
   socket.on(user.directMessage, (message: ISchema.Message) => {
-    console.log(message);
     updateConversation(message)
     .then((updatedMessages) => {
       io.sockets.in(message.conversationId).emit(user.directMessage, updatedMessages)
@@ -70,6 +68,7 @@ export async function onConnection (socket: Socket | any) {
   })
 
   socket.on(join.group, (joingroup: ISchema.JoinGroup) => {
+    console.log(joingroup);
     createGroupConversation(joingroup)
     .then((conversation) =>
       io.sockets.emit(join.room, conversation)
@@ -77,5 +76,5 @@ export async function onConnection (socket: Socket | any) {
     .catch(err => console.error(err))
   })
 
-  socket.on('disconnect', () => console.log(`User ${socket.id} disconnected`))
+  socket.on('disconnect', () => console.log(`User ${username} disconnected`))
 }

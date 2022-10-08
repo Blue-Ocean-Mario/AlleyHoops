@@ -17,9 +17,7 @@ export default function MessageRoom({
       sx={{ border: '1px solid lightgray' }}>
       <Grid>
         <Avatar />
-        {users.map((user) => (
-          <Text key={user}>{user}</Text>
-        ))}
+        {users.length > 1 ? <Text>{`${users[0]}, ${users[1]}...`}</Text> : <Text>{users[0]}</Text>}
       </Grid>
     </Card>
   );

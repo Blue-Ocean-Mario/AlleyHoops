@@ -14,11 +14,12 @@ const socket = io('http://localhost:3001', { autoConnect: false });
 
 export default function App() {
   //const divRef = useRef(true);
-  const [userId, setUserId] = useState('633ca1f73a3cb5d9bdc3bff5');
+  const [userId, setUserId] = useState('');
   const [userObj, setUserObj] = useState({});
   const [page, setPage] = useState(null);
   const [dispId, setDispId] = useState(userId);
   const [gameState, setGameState] = useState('');
+  const [login, setLogin] = useState(false);
   const [myGames, setMyGames] = useState([]);
   const [myGameIds, setMyGameIds] = useState([]);
 
@@ -63,15 +64,23 @@ export default function App() {
 
   const updateUser = () => {
     Axios.getCurrentUser(userId)
-      .then(({ data }) => setUserObj(data))
+      .then(({ data }) => {
+        setUserObj(data)
+        if (login) {
+          const username = data.username;
+          socket.auth = { username };
+          socket.connect();
+        }
+      })
+
       .catch((err) => console.log(err));
   };
 
   return (
     <div className='App'>
-      <NavBar userId={userId} page={page} setPage={setPage} />
+      <NavBar userId={userId} page={page} setPage={setPage} setLogin={setLogin} setUserId={setUserId}/>
       {page === 'login' ? (
-        <LoginView setPage={setPage} setUserId={setUserId} userId={userId} />
+        <LoginView setPage={setPage} setUserId={setUserId} userId={userId} setLogin={setLogin}/>
       ) : null}
       {page === "games"
       ?
@@ -94,12 +103,12 @@ export default function App() {
           setPage={setPage}
           dispId={dispId}
           setDispId={setDispId}
+          setGameState={setGameState}
         />
       ) : null}
-      {page === 'findTeam' ? <FindTeammates user={userObj}/> : null}
-      {page === 'messages' ? <Messages userObj = {userObj}/> : null}
+      {page === 'findTeam' ? <FindTeammates user={userObj} /> : null}
+      {page === 'messages' ? <Messages userObj={userObj} /> : null}
       {page === 'gp' ? <GamePage gameid={gameState} userName={userObj.username} set={setPage} toggleJoinLeave={toggleJoinLeave} myGameIds={myGameIds}/> : null}
-
     </div>
   );
 }
