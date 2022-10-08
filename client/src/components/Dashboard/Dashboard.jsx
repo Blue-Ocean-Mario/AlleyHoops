@@ -22,6 +22,10 @@ const Dashboard = ({
   const [formOpen, setFormOpen] = useState(false);
   const [games, setGames] = useState([]);
 
+  const lookAtEvent = (eventId) =>{
+    setGameState(eventId);
+    setPage('gp');
+  }
   useEffect(() => {
     // update to use user's city and state
     please.getAllGames('San Jose', 'CA', sortBy, userId)
@@ -37,7 +41,7 @@ const Dashboard = ({
     <div id='dashboard-ctn'>
       <Grid>
         <Grid.Col span='content'>
-          <UpcomingGames myGames={myGames} />
+          <UpcomingGames myGames={myGames} lookAtEvent={lookAtEvent}/>
           <div id='button-ctn'>
             <img
               id='basketball-outline'
@@ -80,6 +84,7 @@ const Dashboard = ({
                     setPage={setPage}
                     setGameState={setGameState}
                     toggleJoinLeave={toggleJoinLeave}
+                    lookAtEvent={lookAtEvent}
                   />
                   ))}
                 </Grid>
