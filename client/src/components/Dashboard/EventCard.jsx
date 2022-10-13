@@ -8,7 +8,8 @@ const EventCard = ({
   setDispId,
   setPage,
   setGameState,
-  toggleJoinLeave
+  toggleJoinLeave,
+  lookAtEvent
   }) => {
 
   // padds attendees list to render empty slots
@@ -17,11 +18,6 @@ const EventCard = ({
   while (attendees.length < 12) {
     attendees.push(fakeKey)
     fakeKey++;
-  }
-
-  const lookAtEvent = () => {
-    setGameState(event._id);
-    setPage('gp');
   }
 
   return (
@@ -35,7 +31,7 @@ const EventCard = ({
         xl={3}
         >
         <Card
-          onClick={lookAtEvent}
+          onClick={() => lookAtEvent(event._id)}
           shadow='sm'
           p='lg'
           radius='md'

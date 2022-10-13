@@ -1,7 +1,7 @@
 import { Card, Text, Divider, ScrollArea } from '@mantine/core';
 import moment from 'moment';
 
-const UpcomingGames = ({myGames}) => {
+const UpcomingGames = ({myGames, lookAtEvent}) => {
   return (
     // later: put this in a grid and size it
     <div style={{width: '400px', display: 'flex', justifyContent: 'center'}}>
@@ -10,7 +10,10 @@ const UpcomingGames = ({myGames}) => {
           <Divider my='sm'size='md' color='white'/>
           <ScrollArea type='hover' style={{height: '500px'}}>
             {myGames.map(game =>
-              <Card key={game._id} sx={{backgroundColor: 'white', marginTop: '6px'}}>
+              <Card
+                key={game._id}
+                sx={{backgroundColor: 'white', marginTop: '6px', cursor: 'pointer'}}
+                onClick={() => lookAtEvent(game._id)}>
                 <Text>
                   {game.eventName}
                 </Text>
